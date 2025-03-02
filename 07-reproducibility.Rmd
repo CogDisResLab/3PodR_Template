@@ -2,5 +2,5 @@
 
 ```{r}
 sessionInfo()
-saveRDS(global_state, file = "global_state.RDS", compress = "xz")
+saveRDS(global_state, file = here::here("results/global_state.RDS"), compress = "xz")
 ```

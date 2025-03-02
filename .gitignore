@@ -7,3 +7,6 @@ _bookdown_files
 _book
 packages.bib
 global_state.RDS
+_main.html
+reference-keys.txt
+search_index.json

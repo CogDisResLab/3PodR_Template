@@ -14,7 +14,7 @@ HGNChelper_currentHumanMap %>%
   write_csv(paste0("HGNChelper_currentHumanMap_", date, ".csv"))
   
 ###HGNC Gene Symbol Annotations
-hgnc_complete_set <- read_tsv("ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt")
+hgnc_complete_set <- read_tsv("https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt")
 
 hgnc_complete_set %>%
   write_csv(paste0("hgnc_complete_set_", date, ".csv"))
@@ -22,6 +22,7 @@ hgnc_complete_set %>%
 ###Mouse Gene Symbol Annotations
 MRK_List2 <- read_tsv("http://www.informatics.jax.org/downloads/reports/MRK_List2.rpt")
 MRK_List2 %>%
+  filter(`Marker Type` == "Gene") %>%
   write_csv(paste0("MRK_List2_", date, ".csv"))
 
 ###Rat Gene Symbol Annotations
@@ -34,7 +35,7 @@ GENES_RAT %>%
 ##Human
 url <- "http://download.baderlab.org/EM_Genesets/current_release/Human/symbol/GO/"
 gmt <- XML::getHTMLLinks(url) %>%
-  .[str_detect(., "GOALL_no_GO")]
+  .[str_detect(., "GOALL_with_GO")]
 
 fgsea::gmtPathways(paste0(url, gmt)) %>% 
   fgsea::writeGmtPathways(gmt)
@@ -42,7 +43,7 @@ fgsea::gmtPathways(paste0(url, gmt)) %>%
 ##Rat
 url <- "http://download.baderlab.org/EM_Genesets/current_release/Rat/symbol/GO/"
 gmt <- XML::getHTMLLinks(url) %>%
-  .[str_detect(., "GOALL_no_GO")]
+  .[str_detect(., "GOALL_with_GO")]
 
 fgsea::gmtPathways(paste0(url, gmt)) %>% 
   fgsea::writeGmtPathways(gmt)
@@ -50,7 +51,7 @@ fgsea::gmtPathways(paste0(url, gmt)) %>%
 ##Mouse
 url <- "http://download.baderlab.org/EM_Genesets/current_release/Mouse/symbol/GO/"
 gmt <- XML::getHTMLLinks(url) %>%
-  .[str_detect(., "GOALL_no_GO")]
+  .[str_detect(., "GOALL_with_GO")]
 
 fgsea::gmtPathways(paste0(url, gmt)) %>% 
   fgsea::writeGmtPathways(gmt)
@@ -61,7 +62,7 @@ embeddings = readRDS(url("https://github.com/willgryan/PAVER_embeddings/raw/main
 term2name = readRDS(url("https://github.com/willgryan/PAVER_embeddings/raw/main/2023-03-06/term2name_2023-03-06.RDS"))
 
 ###SCRAPE FOR FDA METADATA
-scrape=F
+scrape=TRUE
 
 get_data <- function(X) {
   url = "https://lincsportal.ccs.miami.edu/sigc-api/small-molecule/fetch"
@@ -79,6 +80,7 @@ get_data <- function(X) {
   
   metadata
 }
+
 if(scrape) {
   data <- tibble()
   for(page in 1:(round(21230/100)+1)) {

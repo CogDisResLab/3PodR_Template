@@ -1,6 +1,6 @@
 --- 
 title: "A 3 Pod Report"
-author: "CDRL"
+author: "WGRV"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: scrreprt
@@ -12,26 +12,10 @@ link-citations: yes
 
 This is a 3 Pod Report.
 
-```{r 3PodR, include=FALSE}
-###Global options
-knitr::opts_chunk$set(
-  message = F,
-  warning = F,
-  echo = F,
-  out.width = '100%',
-  out.height = '100%',
-  fig.align = 'center',
-  dpi=300
-)
-options(readr.show_col_types = FALSE,
-        timeout = 999)
+```{r index_3PodR, include=FALSE}
+# Initialize the 3PodR environment
 
-source("R/3PodR.R", local = knitr::knit_global())
-```
+source(here::here("R/3PodR.R"), local = knitr::knit_global())
 
-```{r, include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+suppressWarnings(knitr::write_bib(c(.packages(), "bookdown", "knitr", "rmarkdown"), here::here("packages.bib")))
 ```

@@ -12,7 +12,7 @@ global_state$data %<>%
     .,
     bpn = do_gsea_pod(
       .$bpn,
-      gmtfile = paste0("extdata/", global_state$gmt),
+      gmtfile = global_state$gmt,
       rankWithSignificance = TRUE,
       species = NULL,
       useFDR = FALSE,

@@ -1,0 +1,67 @@
+# Differentially Expressed Genes
+
+These are visualizations of the differentially expressed genes (DEGs).
+
+## Top DEGs
+
+These are the top 50 significantly (adjusted p-value <= 0.05) differentially expressed genes (DEGs) for each comparison determined by greatest absolute log2FoldChange.
+
+```{r degs_top_degs}
+
+# Pull list of named DEG tables from global state
+global_state$data %>%
+  purrr::map("data") %>%
+  combined_deg_heatmap(df = .)
+
+```
+
+## Volcano Plots
+
+These are volcano plots of the DEGs.
+
+```{r degs_volcano_plots, results="asis"}
+
+# Dynamically generate volcano plots for each data set
+
+global_state$data %>%
+  purrr::map( ~ knitr::knit_child(
+    text = c(
+      '',
+      '### `r .$name`',
+      '',
+      '```{r}',
+      'volcano_plot(.$data)',
+      '```',
+      ''
+    ),
+    envir = environment(),
+    quiet = TRUE)) %>%
+  purrr::list_c() %>%
+  cat(sep = "\n")
+```
+
+<!-- ## Expression of Top DEGs -->
+```{r degs_deg_expression, results='asis'}
+# Dynamically generate heatmaps for each data set, if raw counts are included in the analysis
+
+if(global_state$using_counts) {
+  global_state$data %>%
+    map( ~ knitr::knit_child(
+      text = c(
+        '',
+        '### `r .$name`',
+        '',
+        '```{r}',
+        'group_count_heatmap(.)',
+        '```',
+        ''
+      ),
+      envir = environment(),
+      quiet = TRUE
+    )) %>%
+    c("\n\nThis is gene expression of the most upregulated (top 90%) and most downregulated (bottom 10%) significant genes (FDR adjusted p-value < 0.05) \n\n", .) %>%
+    c("\n\n## Expression of Top DEGs\n\n", .) %>%
+    purrr::list_c() %>%
+    cat(sep = "\n")
+}
+```
