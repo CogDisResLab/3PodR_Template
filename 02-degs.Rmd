@@ -6,7 +6,7 @@ These are visualizations of the differentially expressed genes (DEGs).
 
 These are the top 50 significantly (adjusted p-value <= 0.05) differentially expressed genes (DEGs) for each comparison determined by greatest absolute log2FoldChange.
 
-```{r degs_top_degs}
+```{r degs-topdegs}
 
 # Pull list of named DEG tables from global state
 global_state$data %>%
@@ -19,7 +19,7 @@ global_state$data %>%
 
 These are volcano plots of the DEGs.
 
-```{r degs_volcano_plots, results="asis"}
+```{r degs-volcanoplots, results="asis"}
 
 # Dynamically generate volcano plots for each data set
 
@@ -41,7 +41,7 @@ global_state$data %>%
 ```
 
 <!-- ## Expression of Top DEGs -->
-```{r degs_deg_expression, results='asis'}
+```{r degs-degexpression, results='asis'}
 # Dynamically generate heatmaps for each data set, if raw counts are included in the analysis
 
 if(global_state$using_counts) {

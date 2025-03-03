@@ -6,7 +6,7 @@ This is Enrichr.
 
 These are Enrichr pathways.
 
-```{r, results='asis'}
+```{r enrichr-pathways, results='asis'}
 global_state$data %<>%
   map( ~ update_list(., bpn = {system("sleep 3"); quiet(do_enrichr_pod(.$bpn, useFDR=FALSE))}))
 
@@ -24,7 +24,7 @@ global_state$data %>%
 
 These are PAVER plots of the pathways from all comparisons
 
-```{r, results='asis'}
+```{r enrichr-paver, results='asis'}
 input = global_state$data %>%
   map(~ bind_rows(.$bpn@enrichr@sig_up_enrichr, .$bpn@enrichr@sig_down_enrichr %>% mutate(Combined.Score = Combined.Score * -1))) %>%
   bind_rows(.id = "Group") %>%

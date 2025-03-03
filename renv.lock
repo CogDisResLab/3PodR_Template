@@ -806,7 +806,7 @@
       "Title": "PAVER: Pathway Analysis Visualization with Embedding Representations",
       "Authors@R": "person(\"William G\", \"Ryan V\", , \"billyryan543@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0003-4868-4002\"))",
       "Description": "Summary visualization using embedding representations to reveal underlying themes within sets of pathway terms.",
-      "License": "GPL (>= 3) + file LICENSE",
+      "License": "GPL (>= 3)",
       "Imports": [
         "circlize",
         "ComplexHeatmap",
@@ -831,7 +831,7 @@
       ],
       "Encoding": "UTF-8",
       "Roxygen": "list(markdown = TRUE)",
-      "RoxygenNote": "7.3.1",
+      "RoxygenNote": "7.3.2",
       "Suggests": [
         "knitr",
         "rmarkdown",
@@ -847,10 +847,10 @@
       "Maintainer": "William G Ryan V <billyryan543@gmail.com>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "PAVER",
       "RemoteUsername": "willgryan",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "5a2c6e203b5d3b04305b7358c39e4cc4b71c06b5"
+      "RemoteRepo": "PAVER",
+      "RemoteRef": "main",
+      "RemoteSha": "9b74c6403f985e7a76e80354f7aaa4a0ee24e4d7"
     },
     "R6": {
       "Package": "R6",

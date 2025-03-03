@@ -49,65 +49,64 @@ list.files(here::here("R/functions"), full.names = TRUE) %>%
   purrr::walk(source)
 
 # Setup report state
-global_state <- yaml::read_yaml(file = here::here("extdata/_variables.yml"),
-                                readLines.warn = FALSE)
+configuration_yml <- here::here("extdata", "configuration.yml")
+
+if(!file.exists(configuration_yml)) {
+  stop("Configuration file not found")
+}
+
+global_state <- yaml::read_yaml(file = configuration_yml, readLines.warn = FALSE)
 
 # This is the HGNCHelper precomputed mapping file
-global_state$humanmap <- here::here(file.path("extdata", "assets", global_state$humanmap)) %>%
+global_state$humanmap <- here::here("extdata", "assets", global_state$humanmap) %>%
   readr::read_csv()
 
 #These are gene annotations for each species
-global_state$hgnc <- here::here(file.path("extdata", "assets", global_state$hgnc)) %>%
+global_state$hgnc <- here::here("extdata", "assets", global_state$hgnc) %>%
   readr::read_csv() %>%
   dplyr::select(Symbol = symbol, Name = name)
 
-global_state$mgi <- here::here(file.path("extdata", "assets", global_state$mgi)) %>%
+global_state$mgi <- here::here("extdata", "assets", global_state$mgi) %>%
   readr::read_csv() %>%
   dplyr::select(Symbol = `Marker Symbol`, Name = `Marker Name`)
 
-global_state$rgd <- here::here(file.path("extdata", "assets", global_state$rgd)) %>%
+global_state$rgd <- here::here("extdata", "assets", global_state$rgd) %>%
   readr::read_csv() %>%
   dplyr::select(Symbol = SYMBOL, Name = NAME)
 
-global_state$map <- dplyr::case_when(
-  global_state$species == "human" ~ list(global_state$hgnc),
-  global_state$species == "mouse" ~ list(global_state$mgi),
-  global_state$species == "rat" ~ list(global_state$rgd)
-) %>%
-  purrr::pluck(1)
+global_state$map <- switch(
+  global_state$species,
+  "human" = global_state$hgnc,
+  "mouse" = global_state$mgi,
+  "rat"   = global_state$rgd,
+  stop("Unsupported species. Select one of 'human', 'mouse', or 'rat' in the configuration file.")
+)
 
 #This is the scraped LINCS FDA data
-global_state$lincs_fda <- file.path("extdata", "assets", global_state$lincs_fda) %>%
-  here::here() %>%
+global_state$lincs_fda <- here::here("extdata", "assets", global_state$lincs_fda) %>%
   read_csv()
 
 #This is the GMT file
-global_state$gmt <- file.path("extdata", "assets", global_state$gmt) %>%
-  here::here()
+global_state$gmt <- here::here("extdata", "assets", global_state$gmt) 
 
 #Theses are files for PAVER
-global_state$embeddings <- file.path("extdata", "assets", global_state$embeddings) %>%
-  here::here() %>%
+global_state$embeddings <- here::here("extdata", "assets", global_state$embeddings) %>%
   readr::read_rds()
 
-global_state$term2name <- file.path("extdata", "assets", global_state$term2name) %>%
-  here::here() %>%
+global_state$term2name <- here::here("extdata", "assets", global_state$term2name) %>%
   read_rds()
 
 #Read counts and design if specified
-if (!is_empty(global_state$design) &
-    !is_empty(global_state$counts)) {
-  global_state$design <- file.path("extdata", global_state$design) %>%
-    here::here() %>%
-    readr::read_csv()
-  
-  global_state$counts <- file.path("extdata", global_state$counts) %>%
-    here::here() %>%
-    read_counts()
+design_file <- here::here("extdata", global_state$design)
+counts_file <- here::here("extdata", global_state$counts)
+
+if(file.exists(design_file) && file.exists(counts_file)) {
+  global_state$design <- readr::read_csv(design_file)
+  global_state$counts <- read_counts(counts_file)
   
   if (global_state$species == "human") {
     #Correct HGNC symbols of the counts if human data
-    global_state$counts %<>% fix_hgnc(global_state$humanmap)
+    global_state$counts <- fix_hgnc(global_state$counts, global_state$humanmap)
   }
   
   global_state$using_counts <- TRUE
@@ -118,21 +117,19 @@ if (!is_empty(global_state$design) &
 
 # Load input DEG data
 global_state$data <- global_state$data %>%
-  map( ~ {
-    x <- .
-    
-    x <- utils::modifyList(x, list(
-      name  = paste0(x$group1, " vs ", x$group2),
-      data  = read_deg(paste0("extdata/", x$file)),
-      results = list()
-    ))
+  purrr::map(function(x) {
+   
+    x$name  = stringr::str_c(x$group1, " vs ", x$group2)
+    x$data  = read_deg(here::here("extdata", x$file))
+    x$results = list()
     
     if (global_state$species == "human") {
       x$data <- fix_hgnc(x$data, global_state$humanmap)
     }
     
-    # Prepare BioPathNet data using DEG statistics
-    x$bpn <- BioPathNet::prepare_data(x$data$Symbol, x$data$log2FoldChange, x$data$pvalue)
+    x$bpn <- BioPathNet::prepare_data(
+      x$data$Symbol, x$data$log2FoldChange, x$data$pvalue
+    )
     
     x
   })

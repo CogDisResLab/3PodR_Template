@@ -12,7 +12,7 @@ link-citations: yes
 
 This is a 3 Pod Report.
 
-```{r index_3PodR, include=FALSE}
+```{r index-3PodR, include=FALSE}
 # Initialize the 3PodR environment
 
 source(here::here("R/3PodR.R"), local = knitr::knit_global())
