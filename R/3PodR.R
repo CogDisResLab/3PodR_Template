@@ -100,7 +100,7 @@ global_state$term2name <- here::here("extdata", "assets", global_state$term2name
 design_file <- here::here("extdata", global_state$design)
 counts_file <- here::here("extdata", global_state$counts)
 
-if(file.exists(design_file) && file.exists(counts_file)) {
+if(!rlang::is_empty(global_state$design) && !rlang::is_empty(global_state$counts) && file.exists(design_file) && file.exists(counts_file)) {
   global_state$design <- readr::read_csv(design_file)
   global_state$counts <- read_counts(counts_file)
   
