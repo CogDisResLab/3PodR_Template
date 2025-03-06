@@ -1,5 +1,7 @@
 # Background
 
+Here we describe a hypothetical transcriptomic study as an introduction and explanation to the analysis steps we will perform. This study aims to identify differentially expressed genes (DEGs) in lung adenocarcinoma and understand the biological pathways affected by these gene expression changes.
+
 ## Introduction
 
 Imagine we are investigating a specific type of **cancer** (e.g., **lung adenocarcinoma**) to understand what molecular changes drive the disease. Our goal is to compare **gene expression profiles** between **tumor samples** from cancer patients (**case group**) and matched **non-cancerous control samples** (either normal adjacent tissue or healthy lung tissue). By identifying **genes that are differentially expressed**, we can learn:

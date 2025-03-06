@@ -1,25 +1,29 @@
 # Load libraries and set options
 suppressPackageStartupMessages({
-  library(magrittr)
   library(tidyverse)
   library(purrr)
-  library(HGNChelper)
-  library(ggrepel)
-  library(knitr)
-  library(BioPathNet)
-  library(drugfindR)
+  library(magrittr)
+  
   library(jsonlite)
   library(httr)
-  library(enrichR)
-  library(factoextra)
-  library(babelgene)
-  library(ggVennDiagram)
-  library(PAVER)
+  library(knitr)
+ 
   library(ggupset)
+  library(ggrepel)
+  library(ggVennDiagram)
+  
   library(DT)
   library(circlize)
   library(randomcoloR)
   library(ComplexHeatmap)
+  library(factoextra)
+
+  library(HGNChelper)
+  library(BioPathNet)
+  library(drugfindR)
+  library(PAVER)
+  library(enrichR)
+  library(babelgene)
 })
 
 suppressMessages(
