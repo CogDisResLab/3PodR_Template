@@ -8,7 +8,7 @@ These are Enrichr pathways.
 
 ```{r enrichr-pathways, results='asis'}
 global_state$data <- purrr::map(global_state$data, function(x) {
-  Sys.sleep(3)
+  Sys.sleep(5) # Enrichr API rate limit bug
   x$bpn <- BioPathNet::do_enrichr_pod(
     x$bpn,
     useFDR = TRUE) %>% quiet()
@@ -37,8 +37,8 @@ enrichr_paver_input <- purrr::map_dfr(global_state$data, function(x) {
   )
 }, .id = "Group") %>%
   dplyr::select(GOID = Term, CS = Combined.Score, Group) %>%
-  dplyr::mutate(CS = sign(CS) * log2(abs(CS)) + 1) %>%
-  dplyr::mutate(GOID = stringr::str_extract(GOID, "\\bGO:\\d+")) %>%
+  dplyr::mutate(CS = sign(CS) * log2(abs(CS)) + 1,
+                GOID = stringr::str_extract(GOID, "\\bGO:\\d+")) %>%
   dplyr::distinct(GOID, Group, .keep_all = T) %>%
   tidyr::pivot_wider(names_from = Group, values_from = CS)
 

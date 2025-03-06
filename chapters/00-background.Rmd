@@ -1,6 +1,6 @@
 # Background
 
-## **Introduction**  
+## Introduction
 
 Imagine we are investigating a specific type of **cancer** (e.g., **lung adenocarcinoma**) to understand what molecular changes drive the disease. Our goal is to compare **gene expression profiles** between **tumor samples** from cancer patients (**case group**) and matched **non-cancerous control samples** (either normal adjacent tissue or healthy lung tissue). By identifying **genes that are differentially expressed**, we can learn:
 
@@ -17,10 +17,10 @@ To accomplish this, we will:
 
 Each of these steps provides a different layer of biological insight, building towards a **systems-level understanding of cancer**.
 
-## **Step 1: Differential Gene Expression Analysis**
+## Step 1: Differential Gene Expression Analysis
 Before we can analyze biological pathways, we need to **identify which genes are differentially expressed in cancer versus control samples**.
 
-### **How is Differential Expression (DE) Determined?**
+### How is Differential Expression (DE) Determined?
 We analyze RNA-seq data using a standard **differential expression analysis tool** like **DESeq2** (for bulk RNA-seq). The software **compares the expression levels of each gene** between cancer and control samples while correcting for factors like sequencing depth.
 
 - **The output** is a table of genes ranked by how differently they are expressed between the two groups.
@@ -33,10 +33,10 @@ At this stage, we have two sets of genes:
 
 Now that we have DEGs, the next step is to interpret **which biological processes they affect**.
 
-## **Step 2: Pathway Analysis to Interpret Biological Meaning**
+## Step 2: Pathway Analysis to Interpret Biological Meaning
 Pathway analysis helps us move from **lists of individual genes** to understanding **coordinated functional changes** in cells.  We use two **complementary** approaches:
 
-### **Gene Set Enrichment Analysis (GSEA)**
+### Gene Set Enrichment Analysis (GSEA)
 **Purpose:** GSEA determines if **entire pathways** (sets of functionally related genes) are **coordinately up- or downregulated**, even if individual genes within the pathway are **not strongly differentially expressed**.
 
 #### **How it works:**
@@ -85,7 +85,7 @@ Pathway analysis helps us move from **lists of individual genes** to understandi
 
 By combining **both** methods, we get a more complete picture of the **molecular changes in cancer**.
 
-## **Step 3: Identifying Potential Drugs with iLINCS**
+## Step 3: Identifying Potential Drugs with iLINCS
 Now that we understand the biological pathways affected by cancer, the next step is to **find drugs that might reverse these gene expression changes**. We use **iLINCS**, a database of **drug-induced gene expression profiles** from cell lines.
 
 ### **How iLINCS Works**
@@ -104,7 +104,7 @@ Now that we understand the biological pathways affected by cancer, the next step
 
 By integrating pathway analysis and drug connectivity, we can **prioritize potential therapies**.
 
-## **Conclusion: Translating Results into Biological Insights**
+## Conclusion: Translating Results into Biological Insights
 This study provides a **multi-layered** approach to understanding cancer:
 
 1. **Differential Expression Analysis** identifies **key genes** altered in cancer.

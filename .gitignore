@@ -7,6 +7,7 @@ _bookdown_files
 _book
 packages.bib
 global_state.RDS
-_main.html
+3PodR.html
 reference-keys.txt
 search_index.json
+3PodR.Rmd

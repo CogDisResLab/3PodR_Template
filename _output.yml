@@ -5,4 +5,4 @@ bookdown::gitbook:
   config:
     search: false
     sharing: null
-    download: true
+    download: false

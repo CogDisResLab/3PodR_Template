@@ -32,3 +32,6 @@ lincs_fda: "LINCS_FDA_Phases_2023-05-05.csv" # TODO: is there more current FDA p
 
 embeddings: "anc2vec_02_06_25_embeddings.rds"
 term2name: "anc2vec_02_06_25_term2name.rds"
+
+### Debug
+save_environment: FALSE # Whether to save the entire environment or just global state
