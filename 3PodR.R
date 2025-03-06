@@ -43,7 +43,7 @@ knitr::opts_chunk$set(
 )
 
 # Load functions used throughout the report
-list.files(here::here("R/functions"), full.names = TRUE) %>%
+list.files(here::here("R"), full.names = TRUE) %>%
   purrr::walk(source)
 
 # Setup report state
