@@ -4,7 +4,7 @@ species: human # [human, rat, mouse]
 
 gmt: "Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt" # [Human, Rat, Mouse]
 
-# [csv file] with columns: "Symbol", "Gene Name", "log2FoldChange", "pvalue"
+# [csv file] with columns: "Symbol", "log2FoldChange", "pvalue"
 # WARNING: Do not include underscores in group names
 data:
     - 
