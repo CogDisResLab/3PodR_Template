@@ -6,9 +6,9 @@ do_enrichr <- function(symbols, alpha = 0.05) {
   
   # TODO: re-implement enrichR locally using the GMT file? 
   
-  dbs = c("GO_Biological_Process_2023", 
-          "GO_Molecular_Function_2023", 
-          "GO_Cellular_Component_2023")
+  dbs = c("GO_Biological_Process_2025", 
+          "GO_Molecular_Function_2025", 
+          "GO_Cellular_Component_2025")
   
   columns = c("Biological_Process",
               "Molecular_Function",

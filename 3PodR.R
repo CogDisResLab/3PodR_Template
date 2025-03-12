@@ -51,7 +51,7 @@ list.files(here::here("R"), full.names = TRUE) %>%
   purrr::walk(source)
 
 # Setup report state
-configuration_yml <- here::here("extdata", "configuration.yml")
+configuration_yml <- here::here("configuration.yml")
 
 if(!file.exists(configuration_yml)) {
   stop("Configuration file not found")
