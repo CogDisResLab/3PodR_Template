@@ -24,18 +24,28 @@ These are volcano plots of the DEGs.
 # Dynamically generate volcano plots for each data set
 
 global_state$data %>%
-  purrr::map( ~ knitr::knit_child(
-    text = c(
-      '',
-      '### `r .$name`',
-      '',
-      '```{r}',
-      'volcano_plot(.$data)',
-      '```',
-      ''
-    ),
-    envir = environment(),
-    quiet = TRUE)) %>%
+  # Filter out entries where 'data' is NULL or an empty data frame
+  purrr::keep(~ !is.null(.$data) && (is.data.frame(.$data) && nrow(.$data) > 0)) %>%
+  purrr::map( ~ {
+    # Create a new environment for each child
+    child_env <- new.env(parent = environment()) 
+    child_env$current_data <- .$data # Assign the current data to a specific variable
+    child_env$current_name <- .$name # Assign the current name
+
+    knitr::knit_child(
+      text = c(
+        '',
+        '### `r current_name`', # Use the variable from the child environment
+        '',
+        '```{r}',
+        'volcano_plot(current_data)', # Use the variable from the child environment
+        '```',
+        ''
+      ),
+      envir = child_env, # Pass the specific child environment
+      quiet = FALSE 
+    )
+  }) %>%
   purrr::list_c() %>%
   cat(sep = "\n")
 ```
