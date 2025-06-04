@@ -2,12 +2,6 @@ volcano_plot <- function(X,
                          showFDRLine = TRUE,
                          alpha = 0.05) {
 
-  # --- TEMPORARY DEBUGGING LINES ---
-  print(paste("Inside volcano_plot for dataset:", deparse(substitute(X)))) # This might give the name if called directly
-  print(paste("showFDRLine:", showFDRLine))
-  print(paste("alpha:", alpha))
-  # --- END TEMPORARY DEBUGGING LINES ---
-
   # Calculate FDR-adjusted p-values for determining the adjusted p-value line
   X_adjusted <- dplyr::mutate(X, p_adj = stats::p.adjust(pvalue, method = "fdr"))
 
@@ -157,9 +151,5 @@ volcano_plot <- function(X,
                             color = "black",
                             size = 3)
 
-  print(table(X$Significant))
-  print(max(-log10(X$pvalue)))
-  print(fdr_pvalue_threshold)
-  print(alpha)
   return(p)
 }

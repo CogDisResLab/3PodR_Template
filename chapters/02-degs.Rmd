@@ -43,7 +43,7 @@ global_state$data %>%
         ''
       ),
       envir = child_env, # Pass the specific child environment
-      quiet = FALSE 
+      quiet = TRUE 
     )
   }) %>%
   purrr::list_c() %>%
