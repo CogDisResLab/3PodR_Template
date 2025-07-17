@@ -65,7 +65,7 @@ volcano_plot <- function(X,
   # Label top 10 points for the plot
 
   X <- dplyr::mutate(X,
-                     top10label = dplyr::if_else(Symbol %in% c("GLP2R", "GABBR2", "GRIN2A", "GABRB2", "PER2", "GSK3B", "NCAN", "ADAM22", "NDUFA1", "ND3", "ATP2A2", "RPL19", "RPS29", "NDUT1", "ROMO1", "NDUFB1"), Symbol, NA_character_))
+                     top10label = dplyr::if_else(Symbol %in% top10, Symbol, NA_character_))
 
   # Build the volcano plot
 
