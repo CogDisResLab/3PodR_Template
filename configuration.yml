@@ -8,8 +8,8 @@ data:
   - group1: Disease B
     group2: Control B
     file: DBvsCB.csv
-design: design.csv
-counts: counts.csv
+# design: design.csv
+# counts: counts.csv
 
 # Debugging
 save_environment: false # Save whole environment or just global state?
