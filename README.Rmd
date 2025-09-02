@@ -36,7 +36,7 @@ Follow these step-by-step instructions to install and run 3PodR:
 Open a terminal and execute:
 
 ```bash
-git clone https://github.com/willgryan/3PodR_bookdown.git
+git clone https://github.com/CogDisResLab/3PodR_Template.git
 ```
 
 ## Open the Project
