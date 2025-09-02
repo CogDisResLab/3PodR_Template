@@ -44,10 +44,10 @@ git clone https://github.com/CogDisResLab/3PodR_Template.git
 Change into the repository directory:
 
 ```bash
-cd 3PodR_bookdown
+cd 3PodR_Template
 ```
 
-Alternatively, open `3PodR_bookdown.Rproj` in [RStudio](https://posit.co/download/rstudio-desktop/).
+Alternatively, open `3PodR_Template.Rproj` in [RStudio](https://posit.co/download/rstudio-desktop/).
 
 ## Restore the Environment
 
