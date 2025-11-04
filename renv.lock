@@ -90,7 +90,7 @@
       "RemoteUsername": "CogDisResLab",
       "RemoteRepo": "BioPathNet",
       "RemoteRef": "main",
-      "RemoteSha": "4894e66282e334b4b1fb4d86377d609c66ee5e8c"
+      "RemoteSha": "05ee111d8cf7227bb26a761f3394a2cae38a49af"
     },
     "BiocGenerics": {
       "Package": "BiocGenerics",
