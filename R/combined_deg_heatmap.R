@@ -1,7 +1,7 @@
 #Input: a list of DEG tables
 combined_deg_heatmap <- function(df,
                                  num_genes = 50,
-                                 useFDR = TRUE,
+                                 useFDR = FALSE,
                                  alpha = 0.05) {
   if (useFDR) {
     df <- df %>%

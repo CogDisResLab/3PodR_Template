@@ -74,12 +74,13 @@ global_state$data <- global_state$data %>%
     x
 })
 
-global_state$data %>%
+lincs_output_1 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(here::here("Rmd", "lincs_signatures.Rmd"), 
                                  envir = environment(), 
                                  quiet = TRUE)) %>%
-  purrr::list_c() %>%
-  cat(sep = "\n")
+  purrr::list_c()
+
+knitr::asis_output(lincs_output_1)
 ```
 
 ## MOAS and Genes
@@ -87,12 +88,13 @@ global_state$data %>%
 These are LINCS Perturbagens MoAs and Genetargets
 
 ```{r lincs-moas-genes, results='asis'}
-global_state$data %>%
+lincs_output_2 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(here::here("Rmd", "lincs_metadata.Rmd"), 
                                  envir = environment(), 
                                  quiet = TRUE)) %>%
-  purrr::list_c() %>%
-  cat(sep = "\n")
+  purrr::list_c()
+
+knitr::asis_output(lincs_output_2)
 ```
 
 ## Pathways
@@ -100,10 +102,11 @@ global_state$data %>%
 These are LINCS Pathways
 
 ```{r lincs-pathways, results='asis'}
-global_state$data %>%
+lincs_output_3 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(here::here("Rmd", "lincs_pathways.Rmd"), envir = environment(), quiet = TRUE)) %>%
-  purrr::list_c() %>%
-  cat(sep = "\n")
+  purrr::list_c()
+
+knitr::asis_output(lincs_output_3)
 ```
 
 ## PAVER
@@ -132,9 +135,10 @@ LINCS_PAVER_result <- PAVER::prepare_data(lincs_paver_input, global_state$embedd
 
 global_state$results <- append(global_state$results, dplyr::lst(LINCS_PAVER_result))
 
-list(LINCS_PAVER_result, "logCS") %>%
+lincs_output_4 <- list(LINCS_PAVER_result, "logCS") %>%
   knitr::knit_child(text = readLines(here::here("Rmd", "paver_report.Rmd")),
              envir = environment(),
-             quiet = TRUE) %>%
-  cat(sep = "\n")
+             quiet = TRUE)
+
+knitr::asis_output(lincs_output_4)
 ```

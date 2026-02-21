@@ -15,14 +15,15 @@ global_state$data <- purrr::map(global_state$data, function(x) {
   x
 })
 
-global_state$data %>%
+enricher_output_1 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(
     here::here("Rmd", "enrichr_pathways.Rmd"),
     envir = environment(),
     quiet = TRUE
   )) %>%
-  purrr::list_c() %>%
-  cat(sep = "\n")
+  purrr::list_c()
+
+knitr::asis_output(enricher_output_1)
 ```
 
 ## PAVER
@@ -56,9 +57,10 @@ ENRICHR_PAVER_result <- PAVER::prepare_data(enrichr_paver_input,
 
 global_state$results <- append(global_state$results, dplyr::lst(ENRICHR_PAVER_result))
 
-list(ENRICHR_PAVER_result, "logCS") %>%
+enricher_output_2 <- list(ENRICHR_PAVER_result, "logCS") %>%
   knitr::knit_child(text = readLines(here::here("Rmd", "paver_report.Rmd")),
                     envir = environment(),
-                    quiet = TRUE) %>%
-  cat(sep = "\n")
+                    quiet = TRUE)
+
+knitr::asis_output(enricher_output_2)
 ```

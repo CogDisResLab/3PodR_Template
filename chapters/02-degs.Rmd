@@ -20,33 +20,36 @@ global_state$data %>%
 These are volcano plots of the DEGs.
 
 ```{r degs-volcanoplots, results="asis"}
-
 # Dynamically generate volcano plots for each data set
-
 global_state$data %>%
-  # Filter out entries where 'data' is NULL or an empty data frame
-  purrr::keep(~ !is.null(.$data) && (is.data.frame(.$data) && nrow(.$data) > 0)) %>%
-  purrr::map( ~ {
+  purrr::map(~ {
     # Create a new environment for each child
     child_env <- new.env(parent = environment()) 
-    child_env$current_data <- .$data # Assign the current data to a specific variable
-    child_env$current_name <- .$name # Assign the current name
+    child_env$current_data <- .$data 
+    child_env$current_name <- .$name 
+
+    # Determine if data is valid for plotting
+    child_env$has_data <- !is.null(.$data) && is.data.frame(.$data) && nrow(.$data) > 0
 
     knitr::knit_child(
       text = c(
         '',
-        '### `r current_name`', # Use the variable from the child environment
+        '### `r current_name`', 
         '',
-        '```{r}',
-        'volcano_plot(current_data)', # Use the variable from the child environment
+        '```{r, echo=FALSE}',
+        'if (has_data) {',
+        '  volcano_plot(current_data, showFDRLine=FALSE)',
+        '} else {',
+        '  cat("No significant data available to display for this comparison.")',
+        '}',
         '```',
         ''
       ),
-      envir = child_env, # Pass the specific child environment
+      envir = child_env,
       quiet = TRUE 
     )
   }) %>%
-  purrr::list_c() %>%
+  purrr::flatten_chr() %>%
   cat(sep = "\n")
 ```
 

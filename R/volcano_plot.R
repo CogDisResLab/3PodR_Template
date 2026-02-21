@@ -150,7 +150,6 @@ volcano_plot <- function(X,
                             label = paste0("Raw p=", alpha),
                             color = "black",
                             size = 3)
-  ggsave('volcano_plot_monkey_etoh.svg')
   return(p)
 }
 

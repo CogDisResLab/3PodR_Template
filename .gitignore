@@ -11,3 +11,5 @@ global_state.RDS
 reference-keys.txt
 search_index.json
 3PodR.Rmd
+extdata/3Pod_extdata/
+results/*

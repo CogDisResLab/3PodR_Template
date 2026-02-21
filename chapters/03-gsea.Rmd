@@ -18,14 +18,15 @@ global_state$data <- purrr::map(global_state$data, function(x) {
   x
 })
   
-global_state$data %>%
+gsea_output_1 <- global_state$data %>%
   map( ~ knitr::knit_child(
     here::here("Rmd", "gsea_pathways.Rmd"),
     envir = environment(),
     quiet = TRUE
   )) %>%
-  purrr::list_c() %>%
-  cat(sep = "\n")
+  purrr::list_c()
+
+knitr::asis_output(gsea_output_1)
 ``` 
 
 ## Leading Edge
@@ -38,10 +39,11 @@ global_state$data <- purrr::map(global_state$data, function(x) {
   x
 })
 
-global_state$data %>%
+gsea_output_2 <- global_state$data %>%
   map( ~ knitr::knit_child(here::here("Rmd/gsea_le.Rmd"), envir = environment(), quiet = TRUE)) %>%
-  purrr::list_c() %>%
-  cat(sep = "\n")
+  purrr::list_c()
+
+knitr::asis_output(gsea_output_2)
 ``` 
 
 ## PAVER
@@ -70,9 +72,10 @@ GSEA_PAVER_result <- PAVER::prepare_data(gsea_paver_input,
 
 global_state$results <- append(global_state$results, dplyr::lst(GSEA_PAVER_result))
 
-list(GSEA_PAVER_result, "NES") %>%
+gsea_output_3 <- list(GSEA_PAVER_result, "NES") %>%
   knitr::knit_child(text = readLines(here::here("Rmd", "paver_report.Rmd")),
                     envir = environment(),
-                    quiet = TRUE) %>%
-  cat(sep = "\n")
+                    quiet = TRUE)
+
+knitr::asis_output(gsea_output_3)
 ```
