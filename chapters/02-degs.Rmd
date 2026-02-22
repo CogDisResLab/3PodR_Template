@@ -38,7 +38,7 @@ global_state$data %>%
         '',
         '```{r, echo=FALSE}',
         'if (has_data) {',
-        '  volcano_plot(current_data, showFDRLine=FALSE)',
+        '  volcano_plot(current_data)',
         '} else {',
         '  cat("No significant data available to display for this comparison.")',
         '}',

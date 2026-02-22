@@ -2,14 +2,17 @@
 species: human # [human, rat, mouse]
 gmt: Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt # [Human, Rat, Mouse]
 data:
-  - group1: Disease A
-    group2: Control A
-    file: DAvsCA.csv
-  - group1: Disease B
-    group2: Control B
-    file: DBvsCB.csv
-design: design.csv
-counts: counts.csv
+  - group1: SUD
+    group2: CTL
+    file: 3Pod_extdata/MDDSUD_project/limma_voom_sud.csv
+  - group1: MDD-SUD
+    group2: CTL
+    file: 3Pod_extdata/MDDSUD_project/limma_voom_mddsud.csv
+  - group1: MDD
+    group2: CTL
+    file: 3Pod_extdata/MDDSUD_project/limma_voom_mdd.csv
+# design: design.csv
+# counts: counts.csv
 
 # Debugging
 save_environment: false # Save whole environment or just global state?
