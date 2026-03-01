@@ -2,15 +2,12 @@
 species: human # [human, rat, mouse]
 gmt: Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt # [Human, Rat, Mouse]
 data:
-  - group1: MDD
-    group2: CTL
-    file: 3Pod_extdata/MDDSUD_project/mdd_toptable.csv
-  - group1: MDDSUD
-    group2: CTL
-    file: 3Pod_extdata/MDDSUD_project/mddsud_toptable.csv
-  - group1: SUD
-    group2: CTL
-    file: 3Pod_extdata/MDDSUD_project/sud_toptable.csv
+  - group1: DA
+    group2: CA
+    file: extdata/DAvsCA.csv
+  - group1: DB
+    group2: CB
+    file: extdata/DBvsCB.csv
 
 # design: design.csv
 # counts: counts.csv
@@ -26,4 +23,3 @@ mgi: MRK_List2_2025-03-01.csv
 lincs_fda: LINCS_FDA_Phases_2023-05-05.csv
 embeddings: anc2vec_02_06_25_embeddings.rds
 term2name: anc2vec_02_06_25_term2name.rds
-
