@@ -62,6 +62,7 @@ minClusterSize = 5
 maxCoreScatter = 0.4
 minGap = (1 - maxCoreScatter) * 3 / 4
 
+tryCatch({
 GSEA_PAVER_result <- PAVER::prepare_data(gsea_paver_input, 
                                          global_state$embeddings, 
                                          global_state$term2name) %>%
@@ -72,10 +73,18 @@ GSEA_PAVER_result <- PAVER::prepare_data(gsea_paver_input,
 
 global_state$results <- append(global_state$results, dplyr::lst(GSEA_PAVER_result))
 
+
 gsea_output_3 <- list(GSEA_PAVER_result, "NES") %>%
   knitr::knit_child(text = readLines(here::here("Rmd", "paver_report.Rmd")),
                     envir = environment(),
                     quiet = TRUE)
 
+
 knitr::asis_output(gsea_output_3)
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  })
 ```
+

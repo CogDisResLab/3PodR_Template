@@ -4,11 +4,13 @@ gmt: Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt # [Human, Rat, Mouse]
 data:
   - group1: DA
     group2: CA
-    file: extdata/DAvsCA.csv
+    file: 3Pod_extdata/MDDSUD_project/mdd_toptable.csv
   - group1: DB
     group2: CB
-    file: extdata/DBvsCB.csv
-
+    file: 3Pod_extdata/MDDSUD_project/mddsud_toptable.csv
+  - group1: DB
+    group2: CB
+    file: 3Pod_extdata/MDDSUD_project/sud_toptable.csv
 # design: design.csv
 # counts: counts.csv
 

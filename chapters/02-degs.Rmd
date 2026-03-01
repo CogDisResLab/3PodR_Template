@@ -7,11 +7,16 @@ These are visualizations of the differentially expressed genes (DEGs).
 These are the top 50 significantly (adjusted p-value <= 0.05) differentially expressed genes (DEGs) for each comparison determined by greatest absolute log2FoldChange.
 
 ```{r degs-topdegs}
-
+tryCatch({
 # Pull list of named DEG tables from global state
 global_state$data %>%
   purrr::map("data") %>%
   combined_deg_heatmap(df = .)
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  })
 
 ```
 

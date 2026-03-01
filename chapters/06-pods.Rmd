@@ -108,7 +108,7 @@ list(names(twopod_plots) %>% as.list(),
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
 
@@ -195,7 +195,7 @@ list(names(threepod_plots) %>% as.list(),
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
 
@@ -221,6 +221,6 @@ if(nrow(global_state$results$fourpod_data) > 0) {
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```

@@ -85,7 +85,7 @@ knitr::asis_output(lincs_output_1)
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
 
@@ -106,7 +106,7 @@ knitr::asis_output(lincs_output_2)
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
 
@@ -125,7 +125,7 @@ knitr::asis_output(lincs_output_3)
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
 
@@ -166,6 +166,6 @@ knitr::asis_output(lincs_output_4)
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
