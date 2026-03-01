@@ -1,48 +1,33 @@
-# 1. Use R 4.5.1 (Matches Rocker's Ubuntu 24.04 based image)
+# 1. Use R 4.5.1
 FROM rocker/r-ver:4.5.1
 
 # 2. Install system dependencies
-# Added libharfbuzz-dev, libfribidi-dev, and libfreetype6-dev for 'ragg'
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libxml2-dev \
-    libssl-dev \
-    libcurl4-openssl-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libtiff-dev \
-    libfreetype6-dev \
-    libharfbuzz-dev \
-    libfribidi-dev \
-    libicu-dev \
-    libglpk-dev \
-    zlib1g-dev \
-    gfortran \
-    pandoc \
-    pkg-config \
+    libxml2-dev libssl-dev libcurl4-openssl-dev libpng-dev \
+    libjpeg-dev libtiff-dev libfreetype6-dev libharfbuzz-dev \
+    libfribidi-dev libicu-dev libglpk-dev zlib1g-dev \
+    gfortran pandoc pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# 3. Setup Environment for Speed and Persistence
+# 3. Setup Environment
+ENV R_LIBS_USER=/opt/renv/library
 ENV RENV_PATHS_LIBRARY=/opt/renv/library
-# Using the 'noble' (Ubuntu 24.04) binary repo for speed
-ENV RENV_CONFIG_REPOS_OVERRIDE="https://packagemanager.posit.co/cran/__linux__/noble/latest"
-ENV RENV_DOWNLOAD_METHOD="libcurl"
-
+ENV R_PROFILE_USER=/dev/null
 WORKDIR /project
 
-# 4. Setup and Restore
-# Copy only the lockfile first to maximize Docker layer caching
+# 4. Restore Packages (Cached Layer)
 COPY renv.lock .Rprofile ./
 COPY renv/activate.R renv/activate.R
-
 RUN mkdir -p /opt/renv/library
-RUN R -e "options(Ncpus = parallel::detectCores()); renv::restore(library='/opt/renv/library')"
+RUN R -e "renv::restore(library='/opt/renv/library')"
 
-# 5. Copy Application Files
-COPY *.Rmd ./
-COPY _site.ym[l] ./ 
+# 5. Copy ALL Application Files
+# This brings in 3PodR.R, chapters/, R/, and everything else
+COPY . .
 
-# 6. Flexible Execution
-ENTRYPOINT ["sh", "-c", "R -e \"rmarkdown::render_site(config_file = '$1')\"", "--"]
+# 6. Execution Logic
+# We use a symlink so that whatever config file you pass at runtime 
+# becomes the "configuration.yml" your R code expects.
+ENTRYPOINT ["sh", "-c", "ln -sf /project/$1 /project/configuration.yml && R --vanilla -e 'bookdown::render_book(\"index.Rmd\")'", "--"]
 
-# Default argument
-CMD ["_site.yml"]
+CMD ["configuration.yml"]
