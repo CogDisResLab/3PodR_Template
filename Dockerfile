@@ -1,8 +1,7 @@
-# 1. Use r-ver (Works on Mac ARM64 and GitHub AMD64)
-FROM rocker/r-ver:latest
+# 1. Use the Jammy-based image to match Posit's Ubuntu 22.04 binaries
+FROM rocker/r-ver:4.4.2-jammy
 
 # 2. Install system dependencies + Pandoc
-# Added image libraries (libpng, libjpeg) and string processing (libicu)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2-dev \
     libssl-dev \
@@ -17,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /project
 
 # 3. FORCE BINARIES & PARALLELISM
+# These binaries now match the OS (Jammy) perfectly, preventing 'stringi' errors
 ENV RENV_CONFIG_REPOS_OVERRIDE="https://packagemanager.posit.co/cran/__linux__/jammy/latest"
 ENV RENV_DOWNLOAD_METHOD="libcurl"
 ENV RENV_PATHS_LIBRARY="renv/library"
@@ -24,16 +24,15 @@ ENV RENV_PATHS_LIBRARY="renv/library"
 # 4. Setup renv files
 COPY renv.lock .Rprofile ./
 COPY renv/activate.R renv/activate.R
-# Pre-create the library folder
 RUN mkdir -p renv/library data
 
 # 5. Restore using all available CPU cores
-# This will now find the 'png.h' header it needs for the 'png' package
 RUN R -e "options(Ncpus = parallel::detectCores()); renv::restore()"
 
-# 6. Copy project assets
+# 6. Copy project assets (Ensure configuration.yml is NOT copied if you want to mount it at runtime)
 COPY *.Rmd ./
 COPY _site.ym[l] ./ 
+# Optional: COPY configuration.yml configuration.yml (only if you want a baked-in default)
 
 # 7. Render
 CMD ["R", "-e", "rmarkdown::render_site()"]
