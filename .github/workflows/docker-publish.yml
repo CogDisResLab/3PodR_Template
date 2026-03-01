@@ -10,7 +10,7 @@ permissions:
 jobs:
   build:
     # Note: If ubuntu-24.04-arm64 hangs, verify your Org settings for "Larger Runners"
-    runs-runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-24.04-arm64' }}
+    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-24.04-arm64' }}
     strategy:
       fail-fast: false # Robustness: If one arch fails, don't kill the other immediately
       matrix:
