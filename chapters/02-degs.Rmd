@@ -26,6 +26,12 @@ These are volcano plots of the DEGs.
 
 ```{r degs-volcanoplots, results="asis"}
 # Dynamically generate volcano plots for each data set
+# Load the configuration (usually at the start of your index.Rmd or setup chunk)
+config <- yaml::read_yaml("configuration.yml")
+
+# Access the toggle
+show_fdr <- config$use_fdr
+
 global_state$data %>%
   purrr::map(~ {
     # Create a new environment for each child
@@ -43,7 +49,7 @@ global_state$data %>%
         '',
         '```{r, echo=FALSE}',
         'if (has_data) {',
-        '  volcano_plot(current_data)',
+        '  volcano_plot(current_data, show_fdr)',
         '} else {',
         '  cat("No significant data available to display for this comparison.")',
         '}',

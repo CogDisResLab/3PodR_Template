@@ -1,6 +1,10 @@
 # For instructions on configuring the report see the README
 species: human # [human, rat, mouse]
 gmt: Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt # [Human, Rat, Mouse]
+
+# Statistical Options
+use_fdr: true # [true, false] Set to true to show FDR line, false for raw p-value
+
 data:
   - group1: DA
     group2: CA
