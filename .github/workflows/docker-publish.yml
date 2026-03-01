@@ -9,10 +9,10 @@ permissions:
 
 jobs:
   build:
-    # Note: If ubuntu-24.04-arm64 hangs, verify your Org settings for "Larger Runners"
-    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-24.04-arm64' }}
+    # Use the 'arm' suffix for the new optimized GitHub-hosted runners
+    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-24.04-arm' }}
     strategy:
-      fail-fast: false # Robustness: If one arch fails, don't kill the other immediately
+      fail-fast: false
       matrix:
         arch: [amd64, arm64]
     
@@ -42,9 +42,10 @@ jobs:
           context: .
           platforms: linux/${{ matrix.arch }}
           labels: ${{ steps.meta.outputs.labels }}
-          # Use gha cache for speed across parallel runs
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # This pushes the architecture-specific image to Docker Hub 
+          # using a unique SHA instead of a tag like 'latest'
           outputs: type=image,name=cdrl/3podr_container,push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
@@ -94,6 +95,7 @@ jobs:
       - name: Create manifest list and push
         working-directory: ${{ runner.temp }}/digests
         run: |
+          # Robustly create the manifest using all generated tags from metadata-action
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf 'cdrl/3podr_container@sha256:%s ' *)          
 
