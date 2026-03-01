@@ -24,7 +24,7 @@ upset_plot
     # This code runs only if an error occurs
     message("An error occurred, returning NULL.")
     return(NULL)
-  }
+  })
 
 ```
 
