@@ -7,7 +7,7 @@ This is LINCS
 Putative drug therapies were identified with signature-based connectivity analysis utilizing the Library of Integrated Network-based Signatures (LINCS) database.
 
 ```{r lincs-signatures, results='asis'}
-
+tryCatch({
 global_state$data <- global_state$data %>%
   purrr::map(function(x) {
     
@@ -81,6 +81,12 @@ lincs_output_1 <- global_state$data %>%
   purrr::list_c()
 
 knitr::asis_output(lincs_output_1)
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```
 
 ## MOAS and Genes
@@ -88,6 +94,7 @@ knitr::asis_output(lincs_output_1)
 These are LINCS Perturbagens MoAs and Genetargets
 
 ```{r lincs-moas-genes, results='asis'}
+tryCatch({
 lincs_output_2 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(here::here("Rmd", "lincs_metadata.Rmd"), 
                                  envir = environment(), 
@@ -95,6 +102,12 @@ lincs_output_2 <- global_state$data %>%
   purrr::list_c()
 
 knitr::asis_output(lincs_output_2)
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```
 
 ## Pathways
@@ -102,11 +115,18 @@ knitr::asis_output(lincs_output_2)
 These are LINCS Pathways
 
 ```{r lincs-pathways, results='asis'}
+tryCatch({
 lincs_output_3 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(here::here("Rmd", "lincs_pathways.Rmd"), envir = environment(), quiet = TRUE)) %>%
   purrr::list_c()
 
 knitr::asis_output(lincs_output_3)
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```
 
 ## PAVER
@@ -114,6 +134,7 @@ knitr::asis_output(lincs_output_3)
 These are PAVER plots of the pathways from all comparisons
 
 ```{r lincs-paver, results='asis'}
+tryCatch({
 lincs_paver_input <- purrr::map_dfr(global_state$data, function(x) {
   dplyr::bind_rows(
     x$results$lincs$concordant_pathways,
@@ -141,4 +162,10 @@ lincs_output_4 <- list(LINCS_PAVER_result, "logCS") %>%
              quiet = TRUE)
 
 knitr::asis_output(lincs_output_4)
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```

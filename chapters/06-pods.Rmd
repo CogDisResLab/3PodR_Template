@@ -3,6 +3,7 @@
 These are all possible overlaps of pathways across all possible comparisons.
 
 ```{r pods-upset}
+tryCatch({
 upset_plot = global_state$results %>%
   purrr::map_dfr("prepared_data", .id = "Pod") %>%
   dplyr::mutate(Pod = stringr::word(Pod, sep =  "_"),
@@ -19,6 +20,11 @@ upset_plot = global_state$results %>%
   labs(x = NULL, y = "Pathways")
 
 upset_plot
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
 
 ```
 
@@ -27,7 +33,7 @@ upset_plot
 These are overlaps between each datasets GSEA and EnrichR results
 
 ```{r pods-2pod, results='asis'}
-
+tryCatch({
 # Generate venn diagrams of each comparison's overlap in GSEA and enrichR results
 # TODO: this could be cleaner
 twopod_plots = global_state$results %>%
@@ -98,6 +104,12 @@ list(names(twopod_plots) %>% as.list(),
     ), envir = environment(), quiet = TRUE)) %>%
   purrr::list_c() %>%
   cat(sep = "\n")
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```
 
 ## 3rd Pod
@@ -105,11 +117,12 @@ list(names(twopod_plots) %>% as.list(),
 These are overlaps between each datasets GSEA and EnrichR and LINCS results
 
 ```{r pods-3pod, results='asis'}
+tryCatch({
 threepod_plots = global_state$results %>%
   purrr::map_dfr("prepared_data", .id = "Pod") %>%
   dplyr::mutate(Pod = stringr::word(Pod, sep =  "_"),
                 Group = stringr::str_remove(Group, "-C|-D")) %>%
-  dplyr::group_by(Group, Pod) %>%
+  dplyr::group_by(Group, Pod) %>% 
   dplyr::summarise(GOID = list(GOID)) %>%
   dplyr::group_by(Group) %>%
   tidyr::nest() %>%
@@ -178,10 +191,17 @@ list(names(threepod_plots) %>% as.list(),
     ), envir = environment(), quiet = TRUE)) %>%
   purrr::list_c() %>%
   cat(sep = "\n")
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```
 
 <!-- ## 4th Pod -->
 ```{r pods-4pod, results='asis'}
+tryCatch({
 if(nrow(global_state$results$fourpod_data) > 0) {
   global_state$results$fourpod_data %>%
     knitr::knit_child(
@@ -197,4 +217,10 @@ if(nrow(global_state$results$fourpod_data) > 0) {
       ''), envir = environment(), quiet = TRUE) %>%
     cat(sep = "\n")
 }
+}, error = function(e) {
+    # This code runs only if an error occurs
+    message("An error occurred, returning NULL.")
+    return(NULL)
+  }
+
 ```
