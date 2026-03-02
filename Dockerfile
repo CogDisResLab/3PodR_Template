@@ -34,6 +34,4 @@ RUN R -e "renv::restore(library='/opt/renv/library')"
 COPY . .
 
 # 6. Execution Logic
-ENTRYPOINT ["sh", "-c", "ln -sf /project/$1 /project/configuration.yml && R --vanilla -e 'bookdown::render_book(\"index.Rmd\")'", "--"]
-
-CMD ["configuration.yml"]
+ENTRYPOINT ["R", "--vanilla", "-e", "bookdown::render_book(\"index.Rmd\")"]
