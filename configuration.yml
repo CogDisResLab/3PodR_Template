@@ -6,14 +6,12 @@ gmt: Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt # [Human, Rat, Mouse]
 use_fdr: true # [true, false] Set to true to show FDR line, false for raw p-value
 
 data:
-  - group1: F_PL
-    group2: F_CTL
-    file: 3Pod_extdata/lorena_stress/Female_PL_control_vs_SPS_DESeq2.csv
-
-  - group1: M_PL
-    group2: M_CTL
-    file: 3Pod_extdata/lorena_stress/Male_PL_control_vs_SPS_DESeq2.csv
-
+  - group1: DA
+    group2: CA
+    file: DAvsCA.csv
+  - group1: DB
+    group2: CB
+    file: DBvsCB.csv
 
 # design: design.csv
 # counts: counts.csv
@@ -29,3 +27,5 @@ mgi: MRK_List2_2025-03-01.csv
 lincs_fda: LINCS_FDA_Phases_2023-05-05.csv
 embeddings: anc2vec_02_06_25_embeddings.rds
 term2name: anc2vec_02_06_25_term2name.rds
+
+
