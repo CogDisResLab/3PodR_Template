@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev libtiff-dev libfreetype6-dev libharfbuzz-dev \
     libfribidi-dev libicu-dev libglpk-dev zlib1g-dev \
     gfortran pandoc pkg-config \
-    cmake libnlopt-dev \
+    cmake libnlopt-dev curl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Setup Environment
@@ -28,7 +28,7 @@ RUN R -e "options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux
 
 RUN mkdir -p /opt/renv/library
 # Now renv::restore will work with the binary override
-RUN R -e "renv::restore(library='/opt/renv/library')"
+RUN R -e "renv::restore(library='/opt/renv/library', type='binary')"
 
 # 5. Copy ALL Application Files
 COPY . .
