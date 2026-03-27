@@ -6,12 +6,15 @@ gmt: Human_GOALL_with_GO_iea_March_01_2025_symbol.gmt # [Human, Rat, Mouse]
 use_fdr: true # [true, false] Set to true to show FDR line, false for raw p-value
 
 data:
-  - group1: DA
-    group2: CA
-    file: DAvsCA.csv
-  - group1: DB
-    group2: CB
-    file: DBvsCB.csv
+  - group1: F_PL
+    group2: F_CTL
+    file: 3Pod_extdata/lorena_stress/Female_PL_control_vs_SPS_DESeq2.csv
+
+  - group1: M_PL
+    group2: M_CTL
+    file: 3Pod_extdata/lorena_stress/Male_PL_control_vs_SPS_DESeq2.csv
+
+
 # design: design.csv
 # counts: counts.csv
 
