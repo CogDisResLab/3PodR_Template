@@ -1,7 +1,7 @@
 #Input: Annotated DrugFindr investigate signature results
 generate_moa_report <- function(annotated_signature) {
   moa_report <- annotated_signature %>%
-    dplyr::select(integratedMoas, Target, GeneTargets) %>%
+    dplyr::select(integratedMoas, Target, GeneTargets, Similarity) %>%
     dplyr::filter(integratedMoas != "" & !is.na(integratedMoas)) %>%
     tidyr::separate_rows(integratedMoas, sep = "\\|") %>%
     tidyr::separate_rows(GeneTargets, sep = "\\|") %>%
@@ -10,7 +10,8 @@ generate_moa_report <- function(annotated_signature) {
     dplyr::summarise(
       Target = paste(unique(Target), collapse = "|"),
       GeneTargets = paste(unique(GeneTargets), collapse = "|"),
-      N = dplyr::n()
+      N = dplyr::n(),
+      AvgSimilarity = mean(Similarity, na.rm = TRUE)
     ) %>%
     dplyr::arrange(dplyr::desc(N))
     
