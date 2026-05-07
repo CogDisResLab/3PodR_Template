@@ -14,7 +14,7 @@ global_state$data <- purrr::map(global_state$data, function(x) {
     useFDR = TRUE) %>% quiet()
   x
 })
-
+tryCatch({
 enricher_output_1 <- global_state$data %>%
   purrr::map(~ knitr::knit_child(
     here::here("Rmd", "enrichr_pathways.Rmd"),
@@ -24,6 +24,11 @@ enricher_output_1 <- global_state$data %>%
   purrr::list_c()
 
 knitr::asis_output(enricher_output_1)
+}, error = function(e) {
+  message("An error occurred, returning NULL.")
+  return(NULL)
+})
+
 ```
 
 ## PAVER
@@ -46,9 +51,7 @@ enrichr_paver_input <- purrr::map_dfr(global_state$data, function(x) {
 minClusterSize = 5
 maxCoreScatter = 0.55
 minGap = (1 - maxCoreScatter) * 3 / 4
-
 tryCatch({
-
 ENRICHR_PAVER_result <- PAVER::prepare_data(enrichr_paver_input,
                                             global_state$embeddings,
                                             global_state$term2name) %>%
@@ -66,9 +69,9 @@ enricher_output_2 <- list(ENRICHR_PAVER_result, "logCS") %>%
 
 knitr::asis_output(enricher_output_2)
 }, error = function(e) {
-    # This code runs only if an error occurs
-    message("An error occurred, returning NULL.")
-    return(NULL)
-  })
+  message("An error occurred, returning NULL.")
+  return(NULL)
+})
 
 ```
+

@@ -17,7 +17,7 @@ global_state$data <- purrr::map(global_state$data, function(x) {
   )
   x
 })
-  
+tryCatch({
 gsea_output_1 <- global_state$data %>%
   map( ~ knitr::knit_child(
     here::here("Rmd", "gsea_pathways.Rmd"),
@@ -27,6 +27,10 @@ gsea_output_1 <- global_state$data %>%
   purrr::list_c()
 
 knitr::asis_output(gsea_output_1)
+}, error = function(e) {
+  message("An error occurred, returning NULL.")
+  return(NULL)
+})
 ``` 
 
 ## Leading Edge
@@ -38,12 +42,16 @@ global_state$data <- purrr::map(global_state$data, function(x) {
   x$bpn <- BioPathNet::do_leading_pod(x$bpn)
   x
 })
-
+tryCatch({
 gsea_output_2 <- global_state$data %>%
   map( ~ knitr::knit_child(here::here("Rmd/gsea_le.Rmd"), envir = environment(), quiet = TRUE)) %>%
   purrr::list_c()
 
 knitr::asis_output(gsea_output_2)
+}, error = function(e) {
+  message("An error occurred, returning NULL.")
+  return(NULL)
+})
 ``` 
 
 ## PAVER
